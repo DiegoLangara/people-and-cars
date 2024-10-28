@@ -26,6 +26,23 @@ const UPDATE_PERSON = gql`
   }
 `;
 
+const GET_PERSON_WITH_CARS = gql`
+  query GetPersonWithCars($id: ID!) {
+    personWithcars(id: $id) {
+      id
+      firstName
+      lastName
+      cars {
+        id
+        year
+        make
+        model
+        price
+      }
+    }
+  }
+`;
+
 const PersonForm = ({ person, refetchPeople, onSuccess }) => {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');

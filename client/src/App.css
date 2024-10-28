@@ -436,3 +436,68 @@ aspect-ratio: 1024 / 895;
     background-color: #02aeb4 !important;
   }
 }
+.showCard{
+  background-color: #474747;
+    color: white;
+    padding: 24px;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 12px;
+    padding: 2vw;
+    margin-left: auto;
+    margin-right: auto;
+    width: 80%;
+    max-width: 600px;
+    display: flex;
+    flex-flow: column nowrap;
+    gap: 0;
+    margin-top: 3rem;
+    margin-bottom: 3rem;
+    ul{
+      padding: 0!important;
+      margin: 0!important;
+      margin-bottom: 3rem !important;
+    }
+    h2{
+      color: #fff;
+      padding-bottom: 2rem;
+      border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+    }
+    .showItemCard{
+      border-radius: 4px;
+    border: 1px solid rgba(0, 0, 0, 0.12);
+    overflow: hidden;
+    margin-top: 16px;
+    padding: 16px;
+    background-color: #383838;
+    color: white;
+    }
+}
+.detailsWrapper{
+  display: flex;
+  flex-flow: column nowrap;
+width: 100%;
+justify-content: center;
+align-items: center;
+}
+.detailsBtn{
+  background-color: #00dfdc !important;
+  border: 1px solid  #00dfdc !important;
+  color: #081010 !important;
+  width: max-content;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 2rem;
+  font-weight: 600;
+  transition: all 0.3s ease-in-out;
+  font-size: 18px;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  margin-top: 2rem !important;
+  svg{
+    margin-right: 5px;
+  }
+  &:hover{
+    background-color: #02aeb4 !important;
+    color: #ffffff !important;
+  }
+}
