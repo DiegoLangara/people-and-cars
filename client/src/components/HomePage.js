@@ -2,12 +2,13 @@ import React, { useState, useRef } from 'react';
 import { useQuery, useMutation, gql } from '@apollo/client';
 import PersonForm from './PersonForm';
 import CarForm from './CarForm';
-
+import { useNavigate } from 'react-router-dom';
 import carBg from '../assets/car-bg2.jpg';
 import { BiMessageSquareEdit, BiMessageSquareX } from "react-icons/bi";
 import { Card, Button, Typography, Box, Grid } from '@mui/material';
 import { Modal, message } from 'antd';
 import { IoTrashBinOutline } from "react-icons/io5";
+import { MdOutlineCarCrash } from "react-icons/md";
 
 const DELETE_ALL_PEOPLE = gql`
   mutation {
@@ -61,7 +62,9 @@ function HomePage() {
   const [selectedCar, setSelectedCar] = useState(null);
   const personFormRef = useRef(null);
   const carFormRef = useRef(null);
-  const resultsRef = useRef(null); 
+  const resultsRef = useRef(null);
+
+  const navigate = useNavigate();
 
   const [deleteAllPeople] = useMutation(DELETE_ALL_PEOPLE, {
     onCompleted: () => {
@@ -69,14 +72,14 @@ function HomePage() {
       refetch();
     },
   });
-  
+
   const [deleteAllCars] = useMutation(DELETE_ALL_CARS, {
     onCompleted: () => {
       message.success('All cars deleted successfully.');
       refetch();
     },
   });
-  
+
   const handleDeleteAllRecords = () => {
     confirm({
       title: 'Are you sure you want to delete all records?',
@@ -103,7 +106,7 @@ function HomePage() {
       message.error(`Failed to delete person: ${error.message}`);
     },
   });
-  
+
   const [deleteCar] = useMutation(DELETE_CAR, {
     onCompleted: () => {
       refetch();
@@ -173,7 +176,14 @@ function HomePage() {
         <h1>People & Cars</h1>
         <figure><img src={carBg} alt="car" style={{ width: '100%', height: 'auto' }} /></figure>
         <div className='Forms'>
-          <div className="PersonForm" id="PersonForm" ref={personFormRef}>
+          <div
+            className="PersonForm"
+            id="PersonForm"
+            ref={personFormRef}
+            style={{
+              gridColumn: data.people.length > 0 ? '1 / 2' : '1 / -1'
+            }}
+          >
             <PersonForm
               person={selectedPerson}
               refetchPeople={() => {
@@ -184,18 +194,20 @@ function HomePage() {
               className='personForm'
             />
           </div>
-          <div className="CarForm" id='CarForm' ref={carFormRef}>
-            <CarForm
-              car={selectedCar}
-              people={data.people}
-              refetchCars={() => {
-                refetch();
-                handleScrollToResults();
-              }}
-              onSuccess={() => setSelectedCar(null)}
-              className='carForm'
-            />
-          </div>
+          {data.people.length > 0 && (
+            <div className="CarForm" id='CarForm' ref={carFormRef}>
+              <CarForm
+                car={selectedCar}
+                people={data.people}
+                refetchCars={() => {
+                  refetch();
+                  handleScrollToResults();
+                }}
+                onSuccess={() => setSelectedCar(null)}
+                className='carForm'
+              />
+            </div>
+          )}
         </div>
         <div className='Results' id='Results' ref={resultsRef}>
           <h2>Results</h2>
@@ -245,10 +257,11 @@ function HomePage() {
                       </div>
                     </Card>
                   ))}
+                  <div className='detailsWrapper'><Button onClick={() => navigate(`/people/${person.id}`)} className='detailsBtn'><MdOutlineCarCrash /> View Details</Button></div>
                 </Card>
               </Grid>
             ))}
-          
+
             {data.people.length === 0 && (
               <Typography variant="h6" sx={{ marginTop: 2, width: '100%', textAlign: 'center' }}>
                 No records found.
@@ -268,7 +281,7 @@ function HomePage() {
               marginRight: 'auto',
             }}
           >
-            <IoTrashBinOutline style={{marginRight:'10px'}} /> Delete All Records
+            <IoTrashBinOutline style={{ marginRight: '10px' }} /> Delete All Records
           </Button>
         </div>
       </div>
