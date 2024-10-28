@@ -7,6 +7,7 @@ import carBg from '../assets/car-bg2.jpg';
 import { BiMessageSquareEdit, BiMessageSquareX } from "react-icons/bi";
 import { Card, Button, Typography, Box, Grid } from '@mui/material';
 import { Modal, message } from 'antd';
+import { IoTrashBinOutline } from "react-icons/io5";
 
 const DELETE_ALL_PEOPLE = gql`
   mutation {
@@ -247,17 +248,27 @@ function HomePage() {
                 </Card>
               </Grid>
             ))}
+          
+            {data.people.length === 0 && (
+              <Typography variant="h6" sx={{ marginTop: 2, width: '100%', textAlign: 'center' }}>
+                No records found.
+              </Typography>
+            )}
           </Grid>
           <Button
             variant="contained"
             color="secondary"
             onClick={handleDeleteAllRecords}
             sx={{
-              backgroundColor: 'red',
-              color: 'white'
+              backgroundColor: '#c30020',
+              color: 'white',
+              width: 'max-content',
+              marginTop: '3rem',
+              marginLeft: 'auto',
+              marginRight: 'auto',
             }}
           >
-            Delete All Records
+            <IoTrashBinOutline style={{marginRight:'10px'}} /> Delete All Records
           </Button>
         </div>
       </div>
