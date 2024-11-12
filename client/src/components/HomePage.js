@@ -181,8 +181,8 @@ function HomePage() {
             id="PersonForm"
             ref={personFormRef}
             style={{
-              gridColumn: data.people.length > 0 ? '1 / 2' : '1 / -1'
-            }}
+              gridColumn: data && data.people && data.people.length > 0 ? '1 / 2' : '1 / -1'
+           }}
           >
             <PersonForm
               person={selectedPerson}
@@ -194,25 +194,26 @@ function HomePage() {
               className='personForm'
             />
           </div>
-          {data.people.length > 0 && (
-            <div className="CarForm" id='CarForm' ref={carFormRef}>
-              <CarForm
-                car={selectedCar}
-                people={data.people}
-                refetchCars={() => {
-                  refetch();
-                  handleScrollToResults();
-                }}
-                onSuccess={() => setSelectedCar(null)}
-                className='carForm'
-              />
-            </div>
-          )}
+          {data?.people?.length > 0 && (
+  <div className="CarForm" id='CarForm' ref={carFormRef}>
+    <CarForm
+      car={selectedCar}
+      people={data.people}
+      refetchCars={() => {
+        refetch();
+        handleScrollToResults();
+      }}
+      onSuccess={() => setSelectedCar(null)}
+      className='carForm'
+    />
+  </div>
+)}
         </div>
         <div className='Results' id='Results' ref={resultsRef}>
           <h2>Results</h2>
           <Grid container spacing={4} sx={{ marginTop: 0 }}>
-            {data.people.map((person) => (
+          {data?.people?.length > 0 ? (
+  data.people.map((person) => (
               <Grid item xs={12} md={6} lg={4} key={`person-${person.id}`} className='resultsCars'>
                 <Card variant="elevation" sx={{
                   height: 'calc(100% - 3rem)',
@@ -260,13 +261,15 @@ function HomePage() {
                   <div className='detailsWrapper'><Button onClick={() => navigate(`/people/${person.id}`)} className='detailsBtn'><MdOutlineCarCrash /> View Details</Button></div>
                 </Card>
               </Grid>
-            ))}
+                ))
+              ) : (
+                <Typography variant="h6" sx={{ marginTop: 2, width: '100%', textAlign: 'center' }}>
+                  No records found.
+                </Typography>
+              )}
+         
 
-            {data.people.length === 0 && (
-              <Typography variant="h6" sx={{ marginTop: 2, width: '100%', textAlign: 'center' }}>
-                No records found.
-              </Typography>
-            )}
+       
           </Grid>
           <Button
             variant="contained"

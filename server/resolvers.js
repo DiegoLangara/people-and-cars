@@ -1,8 +1,10 @@
 const fs = require('fs');
+const { people: initialPeople, cars: initialCars } = require('./peopleCarsScheme');
+
 const makes = JSON.parse(fs.readFileSync('./makes.json', 'utf-8')).Results;
 
-const people = []; // Replace this with your MongoDB logic if needed
-let cars = [];
+let people = Array.isArray(initialPeople) ? [...initialPeople] : [];
+let cars = Array.isArray(initialCars) ? [...initialCars] : [];
 
 const resolvers = {
   Query: {
@@ -12,7 +14,7 @@ const resolvers = {
     carMakes: () => makes,
   },
   Person: {
-    cars: (parent) => cars.filter(car => car.personId === parent.id)
+    cars: (parent) => cars.filter(car => car.personId === parent.id),
   },
   Mutation: {
     addPerson: (_, { firstName, lastName }) => {
