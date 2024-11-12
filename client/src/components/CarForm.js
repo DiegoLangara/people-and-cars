@@ -88,7 +88,7 @@ const CarForm = ({ car, people, refetchCars, onSuccess }) => {
   useEffect(() => {
     if (car && car.personId) {
       setYear(car.year);
-      setMake(car.make);
+      setMake(car.make.toUpperCase());  
       setModel(car.model);
       setPrice(car.price);
       setPersonId(car.personId);
@@ -96,7 +96,7 @@ const CarForm = ({ car, people, refetchCars, onSuccess }) => {
 
       form.setFieldsValue({
         year: car.year,
-        make: car.make,
+        make: car.make.toUpperCase(),
         model: car.model,
         price: car.price,
         personId: car.personId,
